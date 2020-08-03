@@ -39,6 +39,9 @@ namespace SimpleCharacterManagment
             rewardItemsList.Add(new RewardItems("luckyFound", 0, 1000, "Great, you found a nice wallet full of money! \nREWARD: you get 1000 Gold.", 3, 7, false));
             rewardItemsList.Add(new RewardItems("badLuck", 100, -200, "You are the beast, but fighting like a puppy. ou got robbered after long fight, \n" +
                                                       "after all that was a nice exercise !\nREWARD: you get 100 exp points and lost 200 Gold. ", 1, 9, false));
+
+            rewardItemsList.Add(RewardItems.CopyQuestFromLocationToNewLocation(rewardItemsList,1, 9,2,9));
+            
         }
 
         public void UpdateMap(int oldX, int oldY, int x, int y) {

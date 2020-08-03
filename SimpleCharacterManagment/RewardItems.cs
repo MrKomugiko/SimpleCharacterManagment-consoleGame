@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace SimpleCharacterManagment
@@ -26,8 +27,14 @@ namespace SimpleCharacterManagment
             IsCollected = isCollected;
         }
 
-        public void EditQuestAtLocation(int x, int y) {
-
+        public static RewardItems CopyQuestFromLocationToNewLocation(List<RewardItems> list, int fromOldXcoord, int fromOldYcoord, int toNewXcoord, int toNewYcoord) {
+            
+            RewardItems item = list.Where(l => l.LocalizationX == fromOldXcoord && l.LocalizationY == fromOldYcoord).FirstOrDefault();
+            if (item != null) {
+                item.LocalizationX = toNewXcoord;
+                item.LocalizationY = toNewYcoord;
+            }
+            return item;
         }
 
     }
