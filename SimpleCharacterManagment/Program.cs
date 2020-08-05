@@ -13,7 +13,7 @@ namespace SimpleCharacterManagment
 
             CurrentMap = new Mapa(Mapa.MAP_SIZE_X, Mapa.MAP_SIZE_Y);
             Hero bohater = new Hero("Kamil", 25, 100, 100, 500, "rougue", 1, 1);
-
+            List<FOVData> test = bohater.GenerateFieldOfView();
 
             Console.WriteLine("--------------------STATS--------------------");
             Console.WriteLine($"\tGracz: {bohater.Name} | Poziom: {bohater.Level}.");
