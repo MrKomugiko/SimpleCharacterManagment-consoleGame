@@ -93,11 +93,11 @@ namespace SimpleCharacterManagment
                 //    }
                 //} else {
                     if (counter[i] <= 0) {
-                        x = fov_range_const + counter[i];
+                        x = current_x + counter[i];
                         FieldOfViewCoordsDict.Add(new FOVData(x, y));
                     } else {
                         for (int j = (-counter[i]); j <= counter[i]; j++) {
-                            x = fov_range_const + j;
+                            x = current_x + j;
                             FieldOfViewCoordsDict.Add(new FOVData(x, y));
                         }
                     }
