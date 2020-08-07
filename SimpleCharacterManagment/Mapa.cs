@@ -10,6 +10,7 @@ namespace SimpleCharacterManagment
     public class Mapa
     {
         private List<List<string>> _mapa2D;
+        public List<FOVData> _wallsInMap= new List<FOVData>();
         public List<RewardItems> rewardItemsList = new List<RewardItems>();
         public static int MAP_SIZE_X = 10;
         public static int MAP_SIZE_Y = 10;
@@ -22,6 +23,7 @@ namespace SimpleCharacterManagment
         }
 
         public static string wall = "███";
+        public static string visitedWall = "░░░";
         public static string hiddenOrEmptyRoom = "   ";// █ ▓ ▒ ░
         public static string currentPlayerLocalisation = " X ";
         public static string playerInRoomWithItemReward = "⚑X⚑";
@@ -34,7 +36,6 @@ namespace SimpleCharacterManagment
             List<List<string>> _mapa = new List<List<string>>();
             _mapa = GenerateMapFromTextFile();
             Mapa2D = _mapa;
-
 
             //dodanie znajdziek
             rewardItemsList.Add(new RewardItems("treasureChest", 10, 100, "After tought battle with a lock \nREWARD: you get 50 Exp points and 100 Gold.", 8,1, false));
@@ -104,17 +105,18 @@ namespace SimpleCharacterManagment
 
                             Debug.WriteLine($"Wykryto nie zebraną znajdźke w pobliżu! => [{room.X_coord}][{room.X_coord}]");
                         }
-                    } else {
-                        // if room is Empty and nothink there (wall etc.)
-                        if (CheckIfThereIsAWall(room.X_coord, room.Y_coord)) {
-                            _mapa2D[room.X_coord][room.Y_coord] = wall;
-                        }
-                        if(!CheckIfThereIsAWall(room.X_coord, room.Y_coord)) { 
-                            _mapa2D[room.X_coord][room.Y_coord] = flashlightedEmptyRoom;
+                    }
+                    // if room is Empty and nothink there (wall etc.)
+                    foreach (FOVData wallCoord in _wallsInMap) {
+                        if ((wallCoord.X_coord == room.X_coord) && (wallCoord.Y_coord == room.Y_coord)) {
+                            if (CheckIfThereIsAWall(room.X_coord, room.Y_coord)) {
+                                _mapa2D[room.X_coord][room.Y_coord] = wall;
+                            } else {
+                                _mapa2D[room.X_coord][room.Y_coord] = flashlightedEmptyRoom;
+                            }
                         }
 
                     }
-
                     // Change player position mark while in in room with treasure what isnt cleared
                     if ((currentx == room.X_coord) && (currenty == room.Y_coord)) {
                         // Mark player current position by [X]
@@ -125,7 +127,7 @@ namespace SimpleCharacterManagment
                                 Debug.WriteLine($"Znajdujesz się w pokoju ze skarbem :D");
                             }
                         }
-                        // Debug.WriteLine($"Pozycja gracza => [{room.X_coord}][{room.Y_coord}] ");
+                    Debug.WriteLine($"Pozycja gracza => [{room.X_coord}][{room.Y_coord}] ");
                     }
                 } catch (ArgumentOutOfRangeException) {
                 }
@@ -207,6 +209,10 @@ namespace SimpleCharacterManagment
                         rowOfRooms.Add(hiddenOrEmptyRoom);
                             break;
                         case "1":
+                            // To not showin at start walls diplay these as empty room
+                            //     after explorate it should be visible ? 
+                            // TODO: Chave to change this to adding walls coorinates on the fly, currently i had to first let draw map with walls , 
+                            //     then check/ find "walls" and last redraw map to show empty/hidden room 
                             rowOfRooms.Add(wall);
                             break;
                         case "X":
@@ -215,7 +221,10 @@ namespace SimpleCharacterManagment
                             player_position_Y_from_file = i;
                             break;
                         case "?":
-                            rowOfRooms.Add(roomWithItemReward);
+                            // Same as upper, hide at the first run
+                            //     just display hidden room => dont showing nothing
+                            //rowOfRooms.Add(roomWithItemReward);
+                            rowOfRooms.Add(hiddenOrEmptyRoom);
                             break;
                     }
                     }
@@ -223,5 +232,20 @@ namespace SimpleCharacterManagment
             };
             return testMapa2D;
         }
+    
+        public void ExtractCoordinatesOfWallsInMapFromFileAndSaveInMemory() {
+
+            for (int i = 0; i < MAP_SIZE_Y; i++) {
+                for (int j = 0; j < MAP_SIZE_X; j++) {
+                    if (_mapa2D[i][j] == wall) {
+                        int x= i, y = j;
+                        FOVData WallCoords = new FOVData(x, y);
+                        _wallsInMap.Add(WallCoords);
+                        _mapa2D[i][j] = hiddenOrEmptyRoom;
+                    }
+                }
+            }
+        }
+    
     }
 }

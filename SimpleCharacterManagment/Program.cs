@@ -11,6 +11,7 @@ namespace SimpleCharacterManagment
 
         static void Main(string[] args) {
             CurrentMap = new Mapa(Mapa.MAP_SIZE_X, Mapa.MAP_SIZE_Y);
+            CurrentMap.ExtractCoordinatesOfWallsInMapFromFileAndSaveInMemory();
             Hero bohater = new Hero("Kamil", 25, 100, 100, 500, "rougue",1, _currentLocationX: Mapa.player_position_X_from_file, _currentLocationY: Mapa.player_position_Y_from_file);
                  bohater.FlashlightPower = 2;
             //List<FOVData> test = bohater.GenerateFieldOfView();

@@ -70,8 +70,8 @@ namespace SimpleCharacterManagment
             }
             set {
                 _flashlightBatteryLevel = value;
-                if (_flashlightBatteryLevel <= 0) {
-                    FlashlightPower-=2;
+                if (_flashlightBatteryLevel < 0) {
+                    FlashlightPower-=1;
                     _flashlightBatteryLevel = 0;
                 }
             }
