@@ -10,9 +10,8 @@ namespace SimpleCharacterManagment
         private static int heroLastCoordY = 5;
 
         static void Main(string[] args) {
-
             CurrentMap = new Mapa(Mapa.MAP_SIZE_X, Mapa.MAP_SIZE_Y);
-            Hero bohater = new Hero("Kamil", 25, 100, 100, 500, "rougue",1, _currentLocationX:5, _currentLocationY:5);
+            Hero bohater = new Hero("Kamil", 25, 100, 100, 500, "rougue",1, _currentLocationX: Mapa.player_position_X_from_file, _currentLocationY: Mapa.player_position_Y_from_file);
                  bohater.FlashlightPower = 2;
             //List<FOVData> test = bohater.GenerateFieldOfView();
 
@@ -20,7 +19,7 @@ namespace SimpleCharacterManagment
             Console.WriteLine($"\tGracz: {bohater.Name} | Poziom: {bohater.Level}.");
             // Console.WriteLine($" Twoj poziom wynosi {bohater.Level}");
             Console.WriteLine($"\tExp: {bohater.ExperiencePoints} | HP: {bohater.CurrentHitPoints} | Gold: {bohater.Gold}");
-            Console.WriteLine($"\tFlashlight power : {bohater.FlashlightPower} | Battery: {bohater.FlashlightBatteryLevel}");
+            Console.WriteLine($"\tFlashlight power : {bohater.FlashlightPower}⚡ | Battery: {bohater.FlashlightBatteryLevel}%");
             Console.WriteLine("---------------------------------------------");
             //CurrentMap.UpdateMap(bohater.CurrentLocationX, bohater.CurrentLocationY, bohater.CurrentLocationX, bohater.CurrentLocationY);
             //CurrentMap.ShowMap();

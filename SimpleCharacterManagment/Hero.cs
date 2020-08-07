@@ -176,10 +176,11 @@ namespace SimpleCharacterManagment
             }
             return isTurnedOn;
         }
+
         public void ExploreRoom(List<List<string>> mapa, List<RewardItems> rewardList, int x , int y ) {
             RewardItems reward = rewardList.Where(r => r.LocalizationX == x && r.LocalizationY == y && r.IsCollected == false).FirstOrDefault();
             if (reward != null) {
-                Console.WriteLine("You found a treasure chest, want to open it ? t/n");
+                Console.WriteLine($"You found a {reward.RewardType}, want to open,collect it ? t/n");
                 if(Console.ReadLine().ToLower() == "t") {
                     Console.WriteLine(reward.Description);
                     AddExperience(reward.Experience);
