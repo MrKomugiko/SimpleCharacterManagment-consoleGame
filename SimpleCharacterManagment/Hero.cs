@@ -92,13 +92,16 @@ namespace SimpleCharacterManagment
         public void AddGold(int gold) {
             Gold += gold;
         }
-        public void MoveHeroToCoords(int x, int y) {
+        public void MoveHeroToCoords(Mapa currentMap ,int x, int y) {
             if ((x >= 0 && x < Mapa.MAP_SIZE_X) && (y >= 0 && y < Mapa.MAP_SIZE_Y)) {
-                CurrentLocationX = x;
-                CurrentLocationY = y;
+                if (!currentMap.checkedIfInMapOnCoordsIsAWall(x, y)) {
+                    CurrentLocationX = x;
+                    CurrentLocationY = y;
+
+                    ChargeFlashLightBatteryLevel(); // if power = 1
+                    DrainFlashLightBatteryLevel();  // if power > 1
+                }
             }
-            ChargeFlashLightBatteryLevel(); // if power = 1
-            DrainFlashLightBatteryLevel();  // if power > 1
         }
         public void SaveOldLocation(int x , int y) {
             OldLocationX = x;

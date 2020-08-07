@@ -10,7 +10,7 @@ namespace SimpleCharacterManagment
     public class Mapa
     {
         private List<List<string>> _mapa2D;
-        public List<FOVData> _wallsInMap= new List<FOVData>();
+        public  List<FOVData> _wallsInMap= new List<FOVData>();
         public List<RewardItems> rewardItemsList = new List<RewardItems>();
         public static int MAP_SIZE_X = 10;
         public static int MAP_SIZE_Y = 10;
@@ -122,9 +122,21 @@ namespace SimpleCharacterManagment
             }
         }
 
+        // public method checking if there is wall, for use while player move
+        public bool checkedIfInMapOnCoordsIsAWall(int coord_x, int coord_y) {
+            // List<FOVData> wallList = _wallsInMap;
+            try {
+                if (_wallsInMap.Where(wall=>wall.X_coord == coord_x && wall.Y_coord == coord_y).FirstOrDefault().ToString().Any()) {
+                    return true;
+                }
+                return false;
+            } catch (NullReferenceException) {
+                return false;
+            }
+            
+        }
         // Check if this room contain a Wall
         private bool CheckIfThereIsAWall(int coord_x, int coord_y) => _mapa2D[coord_x][coord_y] == wall ? true : false;
-
 
         // Return true if at specific location room contain any "RewardItem"
         private bool CheckIfChestsInRoom(int coord_x, int coord_y) => this.rewardItemsList.Where(r => r.LocalizationX == coord_x && r.LocalizationY == coord_y).FirstOrDefault() != null ? true : false;

@@ -36,16 +36,16 @@ namespace SimpleCharacterManagment
                 var ch = Console.ReadKey(false).Key;
                     switch (ch) {
                         case ConsoleKey.UpArrow:
-                            bohater.MoveHeroToCoords(heroLastCoordX - 1, heroLastCoordY);
+                            bohater.MoveHeroToCoords(CurrentMap, heroLastCoordX - 1, heroLastCoordY);
                             break;
                         case ConsoleKey.DownArrow:
-                            bohater.MoveHeroToCoords(heroLastCoordX + 1, heroLastCoordY);
+                            bohater.MoveHeroToCoords(CurrentMap, heroLastCoordX + 1, heroLastCoordY);
                             break;
                         case ConsoleKey.LeftArrow:
-                            bohater.MoveHeroToCoords(heroLastCoordX, heroLastCoordY - 1);
+                            bohater.MoveHeroToCoords(CurrentMap, heroLastCoordX, heroLastCoordY - 1);
                             break;
                         case ConsoleKey.RightArrow:
-                            bohater.MoveHeroToCoords(heroLastCoordX, heroLastCoordY + 1);
+                            bohater.MoveHeroToCoords(CurrentMap, heroLastCoordX, heroLastCoordY + 1);
                             break;
                         case ConsoleKey.Escape:
                             break;
