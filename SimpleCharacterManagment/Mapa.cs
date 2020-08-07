@@ -27,8 +27,8 @@ namespace SimpleCharacterManagment
         public static string hiddenOrEmptyRoom = "   ";// █ ▓ ▒ ░
         public static string currentPlayerLocalisation = " X ";
         public static string playerInRoomWithItemReward = "⚑X⚑";
-        public static string roomWithItemReward = " ⚑ ";
-        public static string roomWithClearedItemReward = " ⚐ ";
+        public static string roomWithItemReward = " ? ";
+        public static string roomWithClearedItemReward = " . ";
         public static string flashlightedEmptyRoom = "░░░";
      
         public Mapa(int rows, int columns) {
@@ -37,23 +37,11 @@ namespace SimpleCharacterManagment
             _mapa = GenerateMapFromTextFile();
             Mapa2D = _mapa;
 
-            //dodanie znajdziek
-            rewardItemsList.Add(new RewardItems("treasureChest", 10, 100, "After tought battle with a lock \nREWARD: you get 50 Exp points and 100 Gold.", 8,1, false));
-            rewardItemsList.Add(new RewardItems("FlashlightBooster", 60, 10000, "Nice you gound a Extra Srong battery for your flashlight!!\n[ +1 Vision Area ]", 3,3, false, 1));
-            rewardItemsList.Add(new RewardItems("luckyFound", 0, 1000, "Great, you found a nice wallet full of money! \nREWARD: you get 1000 Gold.", 5,5, false));
-            rewardItemsList.Add(new RewardItems("badLuck", 100, -200, "You are the beast, but fighting like a puppy. ou got robbered after long fight, \n" +
-                                                      "after all that was a nice exercise !\nREWARD: you get 100 exp points and lost 200 Gold. ", 9,1, false));
-
-            //rewardItemsList.Add(RewardItems.CopyQuestFromLocationToNewLocation(rewardItemsList, 9,1, 9, 8));
-
-            // Showing localisation of the rewardItems
-            // AddManyTreasureToRoomByCoordinatesFromList(rewardItemsList);
-
-
+            rewardItemsList = RewardItems.InitializeGameItemsList();
         }
 
         /* Marking map based on old and curent move direction to check special mark when 
-          Player step into ItemReward and depends when its collected or not */
+             Player step into ItemReward and depends when its collected or not */
         public void UpdateMap(int oldX, int oldY, int x, int y) {
             // if we leave a treasure room return his state to ?
             // TODO: if we open chest, dont save ? mark delete this
@@ -155,11 +143,20 @@ namespace SimpleCharacterManagment
             }
         }
 
+
         // Updating map marking every "RewardItem" at localisation.
-        private void AddManyTreasureToRoomByCoordinatesFromList(List<RewardItems> treasures) {
+        private void UnhideTreasuresOnMap(List<RewardItems> treasures) {
             foreach (RewardItems item in treasures) {
                 _mapa2D[item.LocalizationX][item.LocalizationY] = roomWithItemReward;
             }
+            ShowMap();
+            // TODO: make a class TreasureChest, where would be stored data like gold, exp, monster?
+        }
+        private void HidePlaceTreasuresOnMap(List<RewardItems> treasures) {
+            foreach (RewardItems item in treasures) {
+                _mapa2D[item.LocalizationX][item.LocalizationY] = hiddenOrEmptyRoom;
+            }
+            ShowMap();
             // TODO: make a class TreasureChest, where would be stored data like gold, exp, monster?
         }
 
@@ -245,6 +242,22 @@ namespace SimpleCharacterManagment
                     }
                 }
             }
+        }
+  
+        
+        public void DEBUG_Commands(string command) {
+            List<RewardItems> hiddenObjects = rewardItemsList;
+            if(command == "uh-") {
+                UnhideTreasuresOnMap(hiddenObjects);
+            }
+            else if (command == "uh+") { 
+                HidePlaceTreasuresOnMap(hiddenObjects);
+            }
+
+            if (command == "rm") {
+                ShowMap();
+            }
+
         }
     
     }

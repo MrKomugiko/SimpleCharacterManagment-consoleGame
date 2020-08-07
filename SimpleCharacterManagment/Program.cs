@@ -15,7 +15,9 @@ namespace SimpleCharacterManagment
             Hero bohater = new Hero("Kamil", 25, 100, 100, 500, "rougue",1, _currentLocationX: Mapa.player_position_X_from_file, _currentLocationY: Mapa.player_position_Y_from_file);
                  bohater.FlashlightPower = 2;
             //List<FOVData> test = bohater.GenerateFieldOfView();
-
+           
+            Console.Clear();
+            start:
             Console.WriteLine("--------------------STATS--------------------");
             Console.WriteLine($"\tGracz: {bohater.Name} | Poziom: {bohater.Level}.");
             // Console.WriteLine($" Twoj poziom wynosi {bohater.Level}");
@@ -23,11 +25,11 @@ namespace SimpleCharacterManagment
             Console.WriteLine($"\tFlashlight power : {bohater.FlashlightPower}⚡ | Battery: {bohater.FlashlightBatteryLevel}%");
             Console.WriteLine("---------------------------------------------");
             //CurrentMap.UpdateMap(bohater.CurrentLocationX, bohater.CurrentLocationY, bohater.CurrentLocationX, bohater.CurrentLocationY);
-            //CurrentMap.ShowMap();
-
-            Console.WriteLine("Press ENTER to START GAME, moving by key ARROWS");
-
+            CurrentMap.ShowMap();
+            //Console.WriteLine("Press ENTER to START GAME, moving by key ARROWS");
+            
             while (true) {
+                
                 bohater.SaveOldLocation(bohater.CurrentLocationX, bohater.CurrentLocationY);
                 heroLastCoordX = bohater.CurrentLocationX;
                 heroLastCoordY = bohater.CurrentLocationY;
@@ -52,7 +54,7 @@ namespace SimpleCharacterManagment
                 try {
                     // hardtyped turn ON flashing since start
                     if (bohater.UseFlashlight(true)) {
-                        CurrentMap.UpdateMap(heroLastCoordX, heroLastCoordY, bohater.CurrentLocationX, bohater.CurrentLocationY);
+                       // CurrentMap.UpdateMap(heroLastCoordX, heroLastCoordY, bohater.CurrentLocationX, bohater.CurrentLocationY);
                         CurrentMap.UpdateMapWhileUsingFlashlight(bohater.OldListOfRoomsPlayerCanSeeUsingFlashlight, heroLastCoordX, heroLastCoordY,
                                   bohater.CurrentListOfRoomsPlayerCanSeeUsingFlashlight,bohater.CurrentLocationX, bohater.CurrentLocationY);
                     } else {
@@ -62,6 +64,7 @@ namespace SimpleCharacterManagment
                     CurrentMap.UpdateMap(heroLastCoordX, heroLastCoordY, heroLastCoordX, heroLastCoordY);
                 }
                 Console.Clear();
+                DEBUG:
 
                 Console.WriteLine("--------------------STATS--------------------");
                 Console.WriteLine($"\tGracz: {bohater.Name} | Poziom: {bohater.Level}.");
@@ -72,8 +75,51 @@ namespace SimpleCharacterManagment
 
                 CurrentMap.ShowMap();
                 bohater.ExploreRoom(CurrentMap.Mapa2D,CurrentMap.rewardItemsList,bohater.CurrentLocationX, bohater.CurrentLocationY);
-
-
+                if(ch == ConsoleKey.Escape) {
+                    Console.WriteLine("---------------DEBUG SHORTCUTS---------------\n" +
+                                      "\t[F+]  => Flashlight power Up\n" + // OK
+                                      "\t[F-]  => Flashlight power Down\n" + // OK
+                                      "\t[E+]  => Incerase EXP Points\n" + // OK
+                                      "\t[B+]  => Charge battery\n" + // OK
+                                      "\t[HP-]  => Take Damage to player\n" + // OK
+                                      "\t[UH+] => Hide treasures\n" + // OK
+                                      "\t[UH-] => Unreveal Hidden treasures\n" + // OK
+                                      "\t[RM]  => Refresh Map\n" + // OK
+                                      "\t[EXIT]\n" + // OK
+                                      "---------------------------------------------\n");
+                    switch (Console.ReadLine().ToLower()) {
+                        case "f+":
+                            bohater.DEBUG_Commands("f+");
+                            break;
+                        case "f-":
+                            bohater.DEBUG_Commands("f-");
+                            break;
+                        case "e+":
+                            bohater.DEBUG_Commands("e+");
+                            break;
+                        case "b+":
+                            bohater.DEBUG_Commands("b+");
+                            break;
+                        case "hp-":
+                            bohater.DEBUG_Commands("hp-");
+                            break;
+                        case "uh+":
+                            CurrentMap.DEBUG_Commands("uh+");
+                            break;
+                        case "uh-":
+                            CurrentMap.DEBUG_Commands("uh-");
+                            break;
+                        case "rm":
+                            CurrentMap.DEBUG_Commands("rm");
+                            break;
+                        case "exit":
+                            goto start;
+                            
+                        default:
+                            break;
+                    }
+                    goto DEBUG;
+                }
             }
 
         }

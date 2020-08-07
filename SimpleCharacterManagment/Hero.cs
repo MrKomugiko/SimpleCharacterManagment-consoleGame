@@ -97,7 +97,8 @@ namespace SimpleCharacterManagment
                 CurrentLocationX = x;
                 CurrentLocationY = y;
             }
-            DrainFlashLightBatteryLevel();
+            ChargeFlashLightBatteryLevel(); // if power = 1
+            DrainFlashLightBatteryLevel();  // if power > 1
         }
         public void SaveOldLocation(int x , int y) {
             OldLocationX = x;
@@ -109,6 +110,19 @@ namespace SimpleCharacterManagment
                     FlashlightBatteryLevel -= 5;
                 } else {
                     FlashlightBatteryLevel -= 1;
+                }
+            } else {
+                _flashlightPower = 2;
+            }
+        }
+
+        private void ChargeFlashLightBatteryLevel(int value = 0) {
+            if (_flashlightBatteryLevel < 100) {
+                if (_flashlightPower <=1) {
+                    FlashlightBatteryLevel +=10;
+                }
+            if(value != 0) {
+                    _flashlightBatteryLevel = value;
                 }
             }
         }
@@ -193,6 +207,32 @@ namespace SimpleCharacterManagment
                         
                     }
                 }
+            }
+        }
+
+
+
+
+        public void DEBUG_Commands(string command) {
+            if (command == "b+") {
+                ChargeFlashLightBatteryLevel(100);
+                Debug.WriteLine($"Bohater otrzymal 10 DMG pozostało mu {CurrentHitPoints}.");
+            }
+            if (command == "hp-") {
+                TakeDamage(10);
+                Debug.WriteLine($"Bohater otrzymal 10 DMG pozostało mu {CurrentHitPoints}.");
+            }
+            if (command == "e+") {
+                AddExperience(100);
+                Debug.WriteLine($"Bohater otrzymal 100 EXPa aktualnie posiada {ExperiencePoints} oraz ma level {Level}.");
+            }
+            if (command == "f+") {
+                FlashlightPower++;
+                Debug.WriteLine($"Poziom latarki się zwiększył, wynosi {FlashlightPower}");
+            }
+            if (command == "f-") {
+                FlashlightPower--;
+                Debug.WriteLine($"Poziom latarki się zwiększył, wynosi {FlashlightPower}");
             }
         }
 

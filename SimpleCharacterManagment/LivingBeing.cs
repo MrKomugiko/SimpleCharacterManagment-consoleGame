@@ -66,7 +66,7 @@ namespace SimpleCharacterManagment
         }
 
         public void TakeDamage(int hitPointsOfDamage) {
-            CurrentHitPoints = -hitPointsOfDamage;
+            CurrentHitPoints -= hitPointsOfDamage;
             if (IsDead) {
                 CurrentHitPoints = 0;
                 RaiseOnKillMessage();

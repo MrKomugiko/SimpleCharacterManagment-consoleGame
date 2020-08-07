@@ -30,6 +30,22 @@ namespace SimpleCharacterManagment
 
         }
 
+        public static List<RewardItems> InitializeGameItemsList() {
+            //dodanie znajdziek
+            var rewardItemsList = new List<RewardItems>();
+            rewardItemsList.Add(new RewardItems("treasureChest", 10, 100, "After tought battle with a lock \nREWARD: you get 50 Exp points and 100 Gold.", 8, 1, false));
+            rewardItemsList.Add(new RewardItems("FlashlightBooster", 60, 10000, "Nice you gound a Extra Srong battery for your flashlight!!\n[ +1 Vision Area ]", 3, 3, false, 1));
+            rewardItemsList.Add(new RewardItems("luckyFound", 0, 1000, "Great, you found a nice wallet full of money! \nREWARD: you get 1000 Gold.", 5, 5, false));
+            rewardItemsList.Add(new RewardItems("badLuck", 100, -200, "You are the beast, but fighting like a puppy. ou got robbered after long fight, \n" +
+                                                      "after all that was a nice exercise !\nREWARD: you get 100 exp points and lost 200 Gold. ", 9, 1, false));
+
+            //rewardItemsList.Add(RewardItems.CopyQuestFromLocationToNewLocation(rewardItemsList, 9,1, 9, 8));
+
+            // Showing localisation of the rewardItems
+            // AddManyTreasureToRoomByCoordinatesFromList(rewardItemsList);
+            return rewardItemsList;
+        }
+
         public static RewardItems CopyQuestFromLocationToNewLocation(List<RewardItems> list, int fromOldXcoord, int fromOldYcoord, int toNewXcoord, int toNewYcoord) {
             
             RewardItems item = list.Where(l => l.LocalizationX == fromOldXcoord && l.LocalizationY == fromOldYcoord).FirstOrDefault();
